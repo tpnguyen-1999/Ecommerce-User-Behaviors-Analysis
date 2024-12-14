@@ -11,3 +11,7 @@ The E-commerce dataset is stored in the public Google Bigquery dataset. To acces
 - Select "Add Data" in the navigation panel and then "Search a project".
 - Enter the project ID **"bigquery-public-data.google_analytics_sample.ga_sessions"** and click "Enter".
 - Click on the **"ga_sessions_"** table to open it.
+
+## 4. Explain dataset
+https://support.google.com/analytics/answer/3437719?hl=en
+|Field Name | Data Type | Description
