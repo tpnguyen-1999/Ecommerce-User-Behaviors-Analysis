@@ -39,18 +39,30 @@ hits.product.v2ProductName	    | STRING  |	  Product Name.|
 **6.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
 ~~~sql
 SELECT 
-  format_date('%Y%m', parse_date('%Y%m%d', date)) month,
-  sum(totals.visits) visits,
-  sum(totals.pageviews) pageviews,
-  sum(totals.transactions) transactions
+  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
+  SUM(totals.visits) visits,
+  SUM(totals.pageviews) pageviews,
+  SUM(totals.transactions) transactions
 FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*` 
-where _table_suffix between '0101' and '0331'
-group by month
-order by month;
+WHERE _table_suffix BETWEEN '0101' and '0331'
+GROUP BY month
+ORDER BY month;
 ~~~
 |  month  |  visits  |  pageviews  |  transactions  |
 |---------|----------|-------------|----------------|
 |  201701  |  64694  |  257708  |  713  |
 |  201702  |  62192  |  233373  |  733  |
 |  201703  |  69931  |  259522  |  993  |
+
+**6.2: Bounce rate per traffic source in July 2017**
+~~~sql
+SELECT 
+  trafficSource.source source,
+  SUM(totals.visits) total_visits,
+  SUM(totals.bounces) total_no_of_bounces,
+  ROUND(100.0*SUM(totals.bounces)/SUM(totals.visits),3) bounce_rate
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*` 
+GROUP BY source
+ORDER BY total_visits desc;
+~~~
 
