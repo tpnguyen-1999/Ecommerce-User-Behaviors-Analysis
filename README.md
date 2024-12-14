@@ -44,7 +44,7 @@ SELECT
   SUM(totals.pageviews) pageviews,
   SUM(totals.transactions) transactions
 FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*` 
-WHERE _table_suffix BETWEEN '0101' and '0331'
+WHERE _table_suffix BETWEEN '0101' AND '0331'
 GROUP BY month
 ORDER BY month;
 ~~~
@@ -65,4 +65,6 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
 GROUP BY source
 ORDER BY total_visits desc;
 ~~~
+|  source  |  total_visits  |  total_no_of_bounces  |  bounce_rate  |
+|---------|----------|-------------|----------------|
 
