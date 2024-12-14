@@ -48,4 +48,5 @@ where _table_suffix between '0101' and '0331'
 group by month
 order by month;
 ~~~
-
+|  month  |  visits  |  pageviews  |  transactions  |
+|  ---  |  ---  |  ---  |
