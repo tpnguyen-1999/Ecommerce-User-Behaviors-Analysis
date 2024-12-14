@@ -14,4 +14,5 @@ The E-commerce dataset is stored in the public Google Bigquery dataset. To acces
 
 ## 4. Explain dataset
 https://support.google.com/analytics/answer/3437719?hl=en
-|Field Name | Data Type | Description
+
+|Field Name | Data Type | Description|
