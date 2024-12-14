@@ -170,7 +170,37 @@ ORDER BY purchase.month;
 | 201706 |  94.0205                |  316.8656                    |
 | 201707 |  124.2376               |  334.0566                    |
 
+**6.5: Average number of transactions per user that made a purchase in July 2017**
+~~~sql
+SELECT 
+  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
+  ROUND (SUM(totals.transactions)/COUNT(DISTINCT fullVisitorId),4) Avg_total_transactions_per_user
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+UNNEST(hits) hits,
+UNNEST(hits.product) product
+WHERE product.productRevenue is not null
+  AND totals.transactions >=1
+GROUP BY month;
+~~~
+| month  | Avg_total_transactions_per_user |
+|--------|---------------------------------|
+| 201707 | 4.1639                          |
 
+**6.6: Average amount of money spent per session. Only include purchaser data in July 2017**
+~~~sql
+SELECT 
+  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
+  ROUND((SUM(product.productRevenue)/ 1000000)/SUM(totals.visits),2) avg_revenue_by_user_per_visit
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+UNNEST(hits) hits,
+UNNEST(hits.product) product
+WHERE product.productRevenue is not null
+  AND totals.transactions is not null
+GROUP BY month;
+~~~
+| month  | avg_revenue_by_user_per_visit   |
+|--------|---------------------------------|
+| 201707 | 43.86                           |
 
 
 
