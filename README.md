@@ -15,4 +15,21 @@ The E-commerce dataset is stored in the public Google Bigquery dataset. To acces
 ## 4. Explain dataset
 https://support.google.com/analytics/answer/3437719?hl=en
 
-|Field Name | Data Type | Description|
+|  Field Name | Data Type | Description |
+| --- | --- | --- |
+| fullVisitorId                    | STRING    | The unique visitor ID.|
+| date                             | STRING    | The date of the session in YYYYMMDD format. |     
+| totals                           | RECORD    | This section contains aggregate values across the session.    |
+| totals.bounces                   | INTEGER   | Total bounces (for convenience). For a bounced session, the value is 1, otherwise it is null.     |
+| totals.hits                      | INTEGER   | Total number of hits within the session.   |
+| totals.pageviews                 | INTEGER   | Total number of pageviews within the session.    |
+| totals.visits                    | INTEGER   | The number of sessions (for convenience). This value is 1 for sessions with interaction events. The value is null if there are no interaction events in the session.   |    
+| trafficSource.source             | STRING    | The source of the traffic source. Could be the name of the search engine, the referring hostname, or a value of the utm_source URL parameter.|
+| hits                             | RECORD    | This row and nested fields are populated for any and all types of hits|
+| hits.eCommerceAction             | RECORD    | This section contains all of the ecommerce hits that occurred during the session. This is a repeated field and has an entry for each hit that was collected.   |
+| hits.product                     | RECORD    | This row and nested fields will be populated for each hit that contains Enhanced Ecommerce PRODUCT data. |  
+| hits.product.productQuantity     | INTEGER   | The quantity of the product purchased.   |
+| hits.product.productRevenue      | INTEGER   | The revenue of the product, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000). |   
+| hits.product.productSKU          | STRING    | Product SKU.    |
+| hits.product.v2ProductName       | STRING    | Product Name.   |
+| fullVisitorId                    | STRING    | The unique visitor ID.   |
