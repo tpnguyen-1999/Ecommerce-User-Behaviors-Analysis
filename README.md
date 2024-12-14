@@ -63,8 +63,24 @@ SELECT
   ROUND(100.0*SUM(totals.bounces)/SUM(totals.visits),3) bounce_rate
 FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*` 
 GROUP BY source
-ORDER BY total_visits desc;
+ORDER BY total_visits DESC;
 ~~~
 |  source  |  total_visits  |  total_no_of_bounces  |  bounce_rate  |
 |---------|----------|-------------|----------------|
+|  google                |  38400  |  19798  |  51.56  |
+|  (direct)              |  19891  |  8606   |  43.27  |
+|  youtube.com           |  6351   |  4238   |  66.73  |  
+|  analytics.google.com  |  1972   |  1064   |  53.96  |
+|  Partners              |  1788   |  936    |  52.35  |
+|  m.facebook.com        |  669    |  430    |  64.28  |
+|  google.com            |  368    |  183    |  49.73  |
+|  dfa                   |  302    |  124    |  41.06  |
+|  sites.google.com      |  230    |  97     |  42.17  |
+|  facebook.com          |  191    |  102    |  53.40  |
+|  reddit.com            |  189    |  54     |  28.57  |
+|  qiita.com             |  146    |  72     |  49.32  |
+|  baidu                 |  140    |  84     |  60     |
+|  quora.com             |  140    |  70     |  50     |
+
+ 
 
