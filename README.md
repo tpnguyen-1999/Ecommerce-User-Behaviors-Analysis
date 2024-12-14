@@ -47,4 +47,5 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
 where _table_suffix between '0101' and '0331'
 group by month
 order by month;
+~~~
 
