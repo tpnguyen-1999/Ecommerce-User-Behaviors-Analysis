@@ -37,7 +37,7 @@ hits.product.v2ProductName	    | STRING  |	  Product Name.|
 ## 5. Data Processing & Exploring
 ## 6. Ask & answer questions
 **6.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
-~~~~sql
+
 SELECT 
   format_date('%Y%m', parse_date('%Y%m%d', date)) month,
   sum(totals.visits) visits,
@@ -47,4 +47,4 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
 where _table_suffix between '0101' and '0331'
 group by month
 order by month;
-~~~~
+
