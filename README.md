@@ -1,10 +1,9 @@
-# SQL-Ecommerce-Analyzing
-Using BigQuery to explore and analyze datasets from an e-commerce company.
+# [SQL] Ecommerce Dataset Exploring
 
-## 1. Introduction and motivation
-## 2. The goal of this project
-## 3. Raw data
+## 1. Introduction
+Using BigQuery to explore and analyze datasets from an E-commerce company.
 
+## 2. Dataset Access
 The E-commerce dataset is stored in the public Google Bigquery dataset. To access this dataset, follow these steps:
 - Log in to your Google Cloud Platform account and create a new project.
 - Navigate to the BigQuery console and select your newly created project.
@@ -12,7 +11,7 @@ The E-commerce dataset is stored in the public Google Bigquery dataset. To acces
 - Enter the project ID **"bigquery-public-data.google_analytics_sample.ga_sessions"** and click "Enter".
 - Click on the **"ga_sessions_"** table to open it.
 
-## 4. Explain dataset
+## 3. Explain dataset
 https://support.google.com/analytics/answer/3437719?hl=en
 
 |  Field Name                   | Data Type | Description |
@@ -34,9 +33,9 @@ hits.product.productRevenue	    | INTEGER   |	  The revenue of the product, expr
 hits.product.productSKU	        | STRING    |	  Product SKU.|
 hits.product.v2ProductName	    | STRING    |	  Product Name.|
 
-## 5. Data Processing & Exploring
-## 6. Ask & answer questions
-**6.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+## 4. Data Processing & Exploring
+**4.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+- SQL code
 ~~~sql
 SELECT 
   FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
@@ -48,13 +47,16 @@ WHERE _table_suffix BETWEEN '0101' AND '0331'
 GROUP BY month
 ORDER BY month;
 ~~~
+- Query results
+  
 |  month  |  visits |  pageviews  |  transactions  |
 |---------|---------|-------------|----------------|
 |  201701 |  64694  |  257708     |  713           |
 |  201702 |  62192  |  233373     |  733           |
 |  201703 |  69931  |  259522     |  993           |
 
-**6.2: Bounce rate per traffic source in July 2017**
+**4.2: Bounce rate per traffic source in July 2017**
+- SQL code
 ~~~sql
 SELECT 
   trafficSource.source source,
@@ -65,6 +67,8 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
 GROUP BY source
 ORDER BY total_visits DESC;
 ~~~
+- Query results
+  
 |  source                |  total_visits  |  total_no_of_bounces  |  bounce_rate  |
 |------------------------|----------------|-----------------------|---------------|
 |  google                |  38400         |  19798                |  51.56        |
@@ -82,7 +86,8 @@ ORDER BY total_visits DESC;
 |  baidu                 |  140           |  84                   |  60           |
 |  quora.com             |  140           |  70                   |  50           |
 
-**6.3: Revenue by traffic source by week, by month in June 2017**
+**4.3: Revenue by traffic source by week, by month in June 2017**
+- SQL code
 ~~~sql
 SELECT 
   'Month' as time_type,
@@ -107,6 +112,8 @@ WHERE product.productRevenue IS NOT NULL
 GROUP BY time, source
 ORDER BY source, time_type;
 ~~~
+- Query results
+
 |  time_type  |  time  |  source           |  revenue    |
 |-------------|--------|-------------------|-------------|
 |  Month      | 201706 |  (direct)         |  97333.62   |
@@ -128,7 +135,8 @@ ORDER BY source, time_type;
 |  Month      | 201706 |  google           |  18757.18   |
 |  Week       | 201722 |  google           |  2119.39    |
 
-**6.4: Average number of pageviews by purchaser type in June, July 2017**
+**4.4: Average number of pageviews by purchaser type in June, July 2017**
+- SQL code
 ~~~sql
 WITH purchase AS(
   SELECT 
@@ -165,12 +173,15 @@ LEFT JOIN non_purchase
 USING(month)
 ORDER BY purchase.month;
 ~~~
+- Query results
+
 |  month |  avg_pageviews_purchase |  avg_pageviews_non_purchase  |
 |--------|-------------------------|------------------------------|
 | 201706 |  94.0205                |  316.8656                    |
 | 201707 |  124.2376               |  334.0566                    |
 
-**6.5: Average number of transactions per user that made a purchase in July 2017**
+**4.5: Average number of transactions per user that made a purchase in July 2017**
+- SQL code
 ~~~sql
 SELECT 
   FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
@@ -182,11 +193,14 @@ WHERE product.productRevenue is not null
   AND totals.transactions >=1
 GROUP BY month;
 ~~~
+- Query results
+
 | month  | Avg_total_transactions_per_user |
 |--------|---------------------------------|
 | 201707 | 4.1639                          |
 
-**6.6: Average amount of money spent per session. Only include purchaser data in July 2017**
+**4.6: Average amount of money spent per session. Only include purchaser data in July 2017**
+- SQL code
 ~~~sql
 SELECT 
   FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) month,
@@ -198,6 +212,8 @@ WHERE product.productRevenue is not null
   AND totals.transactions is not null
 GROUP BY month;
 ~~~
+- Query results
+
 | month  | avg_revenue_by_user_per_visit   |
 |--------|---------------------------------|
 | 201707 | 43.86                           |
