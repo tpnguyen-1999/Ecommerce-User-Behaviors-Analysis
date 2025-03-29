@@ -117,11 +117,10 @@ ORDER BY source, time_type;
 |  time_type  |  time  |  source           |  revenue    |
 |-------------|--------|-------------------|-------------|
 |  Month      | 201706 |  (direct)         |  97333.62   |
-|  Week       | 201726 |  (direct)         |  14914.81   |
+|  Week       | 201724 |  (direct)         |  30908.91   |
 |  Week       | 201725 |  (direct)         |  27295.32   |
 |  Week       | 201722 |  (direct)         |  6888.9     |
 |  Week       | 201723 |  (direct)         |  17325.68   |
-|  Week       | 201724 |  (direct)         |  30908.91   |
 |  Month      | 201706 |  bing             |  13.98      |
 |  Week       | 201724 |  bing             |  13.98      |
 |  Month      | 201706 |  chat.google.com  |  74.03      |
@@ -148,8 +147,7 @@ WITH purchase AS(
   WHERE _table_suffix BETWEEN '0601' AND '0731'
     AND product.productRevenue is not null
     AND totals.transactions >=1
-  GROUP BY month
-  ORDER BY month)
+  GROUP BY month)
 
 , non_purchase AS(
   SELECT 
@@ -161,15 +159,14 @@ WITH purchase AS(
   WHERE _table_suffix BETWEEN '0601' AND '0731'
     AND product.productRevenue is null
     AND totals.transactions is null
-  GROUP BY month
-  ORDER BY month)
+  GROUP BY month)
 
 SELECT 
   purchase.month,
   avg_pageviews_purchase,
   avg_pageviews_non_purchase
 FROM purchase
-LEFT JOIN non_purchase
+FULL JOIN non_purchase
 USING(month)
 ORDER BY purchase.month;
 ~~~
@@ -217,6 +214,80 @@ GROUP BY month;
 | month  | avg_revenue_by_user_per_visit   |
 |--------|---------------------------------|
 | 201707 | 43.86                           |
+
+**4.7: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered.**
+- SQL code
+~~~sql
+WITH buyer_list AS(
+    SELECT
+        distinct fullVisitorId  
+    FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+    , UNNEST(hits) AS hits
+    , UNNEST(hits.product) as product
+    WHERE product.v2ProductName = "YouTube Men's Vintage Henley"
+    AND totals.transactions>=1
+    AND product.productRevenue is not null)
+
+SELECT
+  product.v2ProductName AS other_purchased_products,
+  SUM(product.productQuantity) AS quantity
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+, UNNEST(hits) AS hits
+, UNNEST(hits.product) as product
+JOIN buyer_list using(fullVisitorId)
+WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
+ AND product.productRevenue is not null
+GROUP BY other_purchased_products
+ORDER BY quantity DESC;  
+~~~
+- Query results
+
+| other_purchased_products  | quantity   |
+|---------------------------|------------|
+|Google Sunglasses                     | 20|
+|Google Women's Vintage Hero Tee Black | 7 |
+|SPF-15 Slim & Slender Lip Balm        | 6 |
+|Google Women's Short Sleeve Hero Tee Red Heather| 4|
+|YouTube Men's Fleece Hoodie Black| 3|
+|Google Men's Short Sleeve Badge Tee Charcoal| 3|
+|Android Men's Vintage Henley| 2|
+|22 oz YouTube Bottle Infuser| 2|
+|Google Men's Short Sleeve Hero Tee Charcoal| 2|
+|Android Women's Fleece Hoodie| 2|
+|Google Doodle Decal| 2|
+|YouTube Twill Cap| 2|
+
+**4.8: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017.**
+- SQL code
+~~~sql
+with product_data as(
+SELECT
+    FORMAT_DATE('%Y%m', parse_date('%Y%m%d',date)) AS month,
+    COUNT(CASE WHEN eCommerceAction.action_type = '2' THEN product.v2ProductName END) AS num_product_view,
+    COUNT(CASE WHEN eCommerceAction.action_type = '3' THEN product.v2ProductName END) AS num_add_to_cart,
+    COUNT(CASE WHEN eCommerceAction.action_type = '6' and product.productRevenue is not null THEN product.v2ProductName END) AS num_purchase
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+,UNNEST(hits) as hits
+,UNNEST (hits.product) as product
+WHERE _table_suffix between '20170101' AND '20170331'
+ AND eCommerceAction.action_type IN ('2','3','6')
+GROUP BY month
+ORDER BY month)
+
+SELECT
+    *,
+    ROUND(num_add_to_cart/num_product_view * 100, 2) AS add_to_cart_rate,
+    ROUND(num_purchase/num_product_view * 100, 2) AS purchase_rate
+FROM product_data;
+~~~
+- Query results
+
+| month| num_product_view| num_add_to_cart| num_purchase| add_to_cart_rate| purchase_rate|
+|------|-----------------|----------------|-------------|-----------------|--------------|
+|201701| 25787| 7342| 2143| 28.47| 8.31|
+|201702| 21489| 7360| 2060| 34.25| 9.59|
+|201703| 23549| 8782| 2977| 37.29| 12.64|
+
 
 
 
