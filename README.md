@@ -55,6 +55,9 @@ ORDER BY month;
 |  201702 |  62192  |  233373     |  733           |
 |  201703 |  69931  |  259522     |  993           |
 
+There is a positive trend from February to March in all three metrics. February appears to be the weakest month in terms of site visits, which could be worth investigating for potential
+causes (e.g., seasonal trends, marketing activities, etc.,)
+
 **4.2: Bounce rate per traffic source in July 2017**
 - SQL code
 ~~~sql
@@ -85,6 +88,15 @@ ORDER BY total_visits DESC;
 |  qiita.com             |  146           |  72                   |  49.32        |
 |  baidu                 |  140           |  84                   |  60           |
 |  quora.com             |  140           |  70                   |  50           |
+
+The result presents a summary of website traffic from different sources and key metrics used to assess user engagement and behaviours. It focuses on four main elements: source,
+total_visits, total_no_bounces and bounce_rate. 
+
+Google received the highest website traffic, 38,400 visits in the first row, with 19,798 were single-page visits (bounces), leading to a bounce rate of approximately 51.56%. The 
+second place is (direct) with 19,891 visits, of these 8,606 bounces, resulting to a bounce rate of 43.27%. 
+
+This suggests that the majority of users from this source left the website without navigating to other pages. A high bounce rate indicates that users from this source might not find
+the content they are looking for or the landing page lacks of engagement to encourage further exploration. Therefore, it is essential to deal with high bounce rate by analyzing the context of the source and user behaviors in order to find effective improvement strategies. 
 
 **4.3: Revenue by traffic source by week, by month in June 2017**
 - SQL code
@@ -134,6 +146,8 @@ ORDER BY source, time_type;
 |  Month      | 201706 |  google           |  18757.18   |
 |  Week       | 201722 |  google           |  2119.39    |
 
+This table shows revenue data with various attributes, including time type, time period, souce and the amount of revenue. Revenue comes from different sources, including direct website visits, search traffic and referrals from other websites. 
+
 **4.4: Average number of pageviews by purchaser type in June, July 2017**
 - SQL code
 ~~~sql
@@ -177,6 +191,10 @@ ORDER BY purchase.month;
 | 201706 |  94.0205                |  316.8656                    |
 | 201707 |  124.2376               |  334.0566                    |
 
+The data reveals a significant difference in average page views between users who made a purchase and those who did not. On average, users who did not purchase tend to view more pages on the website than those who made a purchase. For instance, in June 2017, the average pageviews for non-purchasers (316.87) were sgnificantly higher compared to purchasers (94.02).
+
+While user engagement is high, there might be barriers preventing conversions. It is important to find effective strategies in order to encourage these high-pageview users to make purchase, such as imporving website navigation, enhancing product page, reducing checkout process, etc.  
+
 **4.5: Average number of transactions per user that made a purchase in July 2017**
 - SQL code
 ~~~sql
@@ -196,6 +214,8 @@ GROUP BY month;
 |--------|---------------------------------|
 | 201707 | 4.1639                          |
 
+The table presents the average total transactions per user in July, indicating that the typical user made approximately 4.16 transactions during July 2017. This data could help analyze user behavior, track user engagement with the platform, and evaluate the impact of marketing campaigns or promotions during that time.
+
 **4.6: Average amount of money spent per session. Only include purchaser data in July 2017**
 - SQL code
 ~~~sql
@@ -214,6 +234,8 @@ GROUP BY month;
 | month  | avg_revenue_by_user_per_visit   |
 |--------|---------------------------------|
 | 201707 | 43.86                           |
+
+The average revenue per user per visit for July 2017 is 43.86. This suggests that, on average, each user spent approximately 44 during that month. This could be an important metric for businesses to measure user engagement and activity.
 
 **4.7: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered.**
 - SQL code
@@ -257,6 +279,8 @@ ORDER BY quantity DESC;
 |Google Doodle Decal| 2|
 |YouTube Twill Cap| 2|
 
+Overall, the data offers valuable insights into customer preferences, product popularity, and opportunities for marketing and merchandising strategies. A deeper analysis of historical data, combined with customer demographics, could provide a more comprehensive understanding of these trends.
+
 **4.8: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017.**
 - SQL code
 ~~~sql
@@ -288,6 +312,13 @@ FROM product_data;
 |201702| 21489| 7360| 2060| 34.25| 9.59|
 |201703| 23549| 8782| 2977| 37.29| 12.64|
 
-## 5. Conclusion
+The table shows five different metrics and rates related to user behaviours from January to March 2017.
 
+In general, the number of product views increases gradually during this period. Similarly, the add-to-cart rate and purchase rate showed an upward trend, indicating enhanced user engagement and conversion.
+
+## 5. Conclusion
+- My analysis of the eCommerce dataset using SQL on Google BigQuery, based on the Google Analytics dataset, has uncovered several interesting insights.
+- By analyzing the eCommerce dataset, I gained valuable understand about customer behaviors through bounce rate, transactions, revenue, visits and purchase.
+- To further explore key insights and trends, the next step is to visualize the data using software such as Power BI, Tableau, or similar tools.
+- Overall, this project has illustrated the effectiveness of SQL and big data tools like Google BigQuery in extracting valuable insights from large datasets.
 
