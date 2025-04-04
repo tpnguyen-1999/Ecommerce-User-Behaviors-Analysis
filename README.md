@@ -1,4 +1,4 @@
-# [SQL] Ecommerce Dataset Exploring
+# [SQL] E-commerce User Behaviors Analysis
 
 ## 1. Introduction
 Using BigQuery to explore and analyze datasets from an E-commerce company.
