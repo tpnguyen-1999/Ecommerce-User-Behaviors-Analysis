@@ -3,7 +3,7 @@
 ## 1. Introduction
 Using BigQuery to explore and analyze datasets from an E-commerce company.
 
-## 2. Dataset Access
+## 2. Dataset Access & Explanation
 The E-commerce dataset is stored in the public Google Bigquery dataset. To access this dataset, follow these steps:
 - Log in to your Google Cloud Platform account and create a new project.
 - Navigate to the BigQuery console and select your newly created project.
