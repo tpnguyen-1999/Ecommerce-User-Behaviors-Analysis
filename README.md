@@ -1,7 +1,7 @@
 # [SQL] Explore User Behaviors of an E-commerce Company
 
 ## 1. Introduction
-Using BigQuery to explore and analyze datasets from an E-commerce company.
+Using BigQuery to explore and analyze a dataset from an E-commerce company, which contains user session data from a website collected via Google Analytics in 2017. Using this dataset, queries are executed to analyze website activity in 2017, including calculating the bounce rate, identifying days with the highest revenue, examining user behavior on pages, and performing other forms of analysis. The goal of this project is to gain insights into the business situation, assess the product, and understand user behavior to enhance marketing efficiency.
 
 ## 2. Dataset Access & Explanation
 The E-commerce dataset is stored in the public Google Bigquery dataset. To access this dataset, follow these steps:
@@ -11,9 +11,11 @@ The E-commerce dataset is stored in the public Google Bigquery dataset. To acces
 - Enter the project ID **"bigquery-public-data.google_analytics_sample.ga_sessions"** and click "Enter".
 - Click on the **"ga_sessions_"** table to open it.
 
-## 3. Explain dataset
-https://support.google.com/analytics/answer/3437719?hl=en
+Data schema: https://support.google.com/analytics/answer/3437719?hl=en
 
+<details>
+  <summary>📊 Click to view the dataset schema</summary>
+  
 |  Field Name                   | Data Type | Description |
 | ------------------------------|-----------|-------------|
 fullVisitorId                   |	STRING    |	  The unique visitor ID.|
@@ -33,8 +35,10 @@ hits.product.productRevenue	    | INTEGER   |	  The revenue of the product, expr
 hits.product.productSKU	        | STRING    |	  Product SKU.|
 hits.product.v2ProductName	    | STRING    |	  Product Name.|
 
-## 4. Data Processing & Exploring
-**4.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+</details>
+
+## 3. Data Processing & Exploring
+**3.1: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
 - SQL code
 ~~~sql
 SELECT 
@@ -58,7 +62,7 @@ ORDER BY month;
 There is a positive trend from February to March in all three metrics. February appears to be the weakest month in terms of site visits, which could be worth investigating for potential
 causes (e.g., seasonal trends, marketing activities, etc.,)
 
-**4.2: Bounce rate per traffic source in July 2017**
+**3.2: Bounce rate per traffic source in July 2017**
 - SQL code
 ~~~sql
 SELECT 
@@ -98,7 +102,7 @@ second place is (direct) with 19,891 visits, of these 8,606 bounces, resulting t
 This suggests that the majority of users from this source left the website without navigating to other pages. A high bounce rate indicates that users from this source might not find
 the content they are looking for or the landing page lacks of engagement to encourage further exploration. Therefore, it is essential to deal with high bounce rate by analyzing the context of the source and user behaviors in order to find effective improvement strategies. 
 
-**4.3: Revenue by traffic source by week, by month in June 2017**
+**3.3: Revenue by traffic source by week, by month in June 2017**
 - SQL code
 ~~~sql
 SELECT 
@@ -148,7 +152,7 @@ ORDER BY source, time_type;
 
 This table shows revenue data with various attributes, including time type, time period, souce and the amount of revenue. Revenue comes from different sources, including direct website visits, search traffic and referrals from other websites. 
 
-**4.4: Average number of pageviews by purchaser type in June, July 2017**
+**3.4: Average number of pageviews by purchaser type in June, July 2017**
 - SQL code
 ~~~sql
 WITH purchase AS(
@@ -195,7 +199,7 @@ The data reveals a significant difference in average page views between users wh
 
 While user engagement is high, there might be barriers preventing conversions. It is important to find effective strategies in order to encourage these high-pageview users to make purchase, such as imporving website navigation, enhancing product page, reducing checkout process, etc.  
 
-**4.5: Average number of transactions per user that made a purchase in July 2017**
+**3.5: Average number of transactions per user that made a purchase in July 2017**
 - SQL code
 ~~~sql
 SELECT 
@@ -216,7 +220,7 @@ GROUP BY month;
 
 The table presents the average total transactions per user in July, indicating that the typical user made approximately 4.16 transactions during July 2017. This data could help analyze user behavior, track user engagement with the platform, and evaluate the impact of marketing campaigns or promotions during that time.
 
-**4.6: Average amount of money spent per session. Only include purchaser data in July 2017**
+**3.6: Average amount of money spent per session. Only include purchaser data in July 2017**
 - SQL code
 ~~~sql
 SELECT 
@@ -237,7 +241,7 @@ GROUP BY month;
 
 The average revenue per user per visit for July 2017 is 43.86. This suggests that, on average, each user spent approximately 44 during that month. This could be an important metric for businesses to measure user engagement and activity.
 
-**4.7: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered.**
+**3.7: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered.**
 - SQL code
 ~~~sql
 WITH buyer_list AS(
@@ -281,7 +285,7 @@ ORDER BY quantity DESC;
 
 Overall, the data offers valuable insights into customer preferences, product popularity, and opportunities for marketing and merchandising strategies. A deeper analysis of historical data, combined with customer demographics, could provide a more comprehensive understanding of these trends.
 
-**4.8: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017.**
+**3.8: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017.**
 - SQL code
 ~~~sql
 with product_data as(
@@ -316,7 +320,7 @@ The table shows five different metrics and rates related to user behaviours from
 
 In general, the number of product views increases gradually during this period. Similarly, the add-to-cart rate and purchase rate showed an upward trend, indicating enhanced user engagement and conversion.
 
-## 5. Conclusion
+## 4. Conclusion
 - My analysis of the eCommerce dataset using SQL on Google BigQuery, based on the Google Analytics dataset, has uncovered several interesting insights.
 - By analyzing the eCommerce dataset, I gained valuable understand about customer behaviors through bounce rate, transactions, revenue, visits and purchase.
 - To further explore key insights and trends, the next step is to visualize the data using software such as Power BI, Tableau, or similar tools.
